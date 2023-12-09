@@ -1,3 +1,38 @@
+Linear regression of  mtcars dataset using predifined function
 ```{r}
+library(ggplot2)
 
+# Load the data
+data(mtcars)
+
+#linear regression
+model <- lm(mpg ~ wt, data = mtcars)
+
+summary(model)
+```
+
+Linear regression of  mtcars dataset from scratch
+```{r}
+# Function for linear regression without using lm
+linear_regression <- function(x, y) {
+    n <- length(x)  # Number of observations
+    x_mean <- mean(x)  # Mean of x
+    y_mean <- mean(y)  # Mean of y
+    
+    # Calculate the coefficients
+    beta_1 <- sum((x - x_mean) * (y - y_mean)) / sum((x - x_mean)^2)
+    beta_0 <- y_mean - beta_1 * x_mean
+    
+    # Create the model object
+    model <- list(coefficients = c(beta_0, beta_1))
+    class(model) <- "linear_regression"
+    
+    return(model)  # Return the model object
+}
+
+# Example usage
+data(mtcars)
+result <- linear_regression(mtcars$wt, mtcars$mpg)
+print(result$coefficients)
+```{r}
 ```
