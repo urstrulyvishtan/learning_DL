@@ -1,0 +1,13 @@
+prefix=/Users/sibivishtan/Downloads/learning_DL/.conda
+exec_prefix=/Users/sibivishtan/Downloads/learning_DL/.conda
+libdir=/Users/sibivishtan/Downloads/learning_DL/.conda/lib
+sharedlibdir=/Users/sibivishtan/Downloads/learning_DL/.conda/lib
+includedir=/Users/sibivishtan/Downloads/learning_DL/.conda/include
+
+Name: zlib
+Description: zlib compression library
+Version: 1.2.13
+
+Requires:
+Libs: -L${libdir} -L${sharedlibdir} -lz
+Cflags: -I${includedir}
