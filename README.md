@@ -10,3 +10,5 @@ I have equipped with Macbook Air M1, using VSCode as it holds to use extension G
 First I create a function of the model then I'll try using libraries.
 
 I'll try to learn where and why to use diverse ocean of data.
+
+Good Luck To YOU!
