@@ -19,3 +19,4 @@ difference = target - n(in for loop first variable will iterate with incremental
 
 if the difference is found in hashmap then it'll return the hasmap[difference], i
 
+if not then it will just save the array value to the hashmap with iterated value as index.
