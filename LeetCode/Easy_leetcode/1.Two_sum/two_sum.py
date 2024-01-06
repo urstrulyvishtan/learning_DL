@@ -3,6 +3,7 @@ class Solution:
         pmap = {} # key: number, value: index
 
         for i, n in enumerate(nums):
+            print(i, n)
             difference = target - n
             print(difference)
             if difference in pmap:

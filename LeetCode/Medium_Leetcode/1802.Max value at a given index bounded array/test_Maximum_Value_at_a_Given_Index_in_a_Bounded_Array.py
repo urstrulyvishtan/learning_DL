@@ -23,6 +23,7 @@ class TestSolution(unittest.TestCase):
         max_sum3 = 30
         expected3 = 5
         self.assertEqual(Solution.maxValue(n3, index3, max_sum3), expected3)
+        
 
 if __name__ == '__main__':
     unittest.main()
