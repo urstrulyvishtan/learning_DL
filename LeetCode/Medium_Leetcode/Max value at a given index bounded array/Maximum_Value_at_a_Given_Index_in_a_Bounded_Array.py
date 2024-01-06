@@ -1,3 +1,6 @@
+import math
+
+
 class Solution:
     @staticmethod
     def S(h, l):
@@ -28,3 +31,4 @@ class Solution:
 
         return Solution.FindExtra(1, 2, max_sum) + 1
     
+
