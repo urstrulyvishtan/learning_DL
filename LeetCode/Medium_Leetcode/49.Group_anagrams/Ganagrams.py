@@ -1,7 +1,7 @@
 from collections import defaultdict
 class Solution:
     def anagrams_group(self, strs: list[str]) -> list[list[str]]:
-        values = defaultdict(list)
+        values = defaultdict(list) # using defaultdict to avoid KeyError
         for s in strs:
             count = [0] * 26
             for c in s:
