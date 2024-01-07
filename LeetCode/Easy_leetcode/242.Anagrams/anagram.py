@@ -24,6 +24,6 @@ class Solution:
             hash_t[t[i]] = hash_t.get(t[i], 0) + 1
 
         for key in hash_s:
-            if key not in hash_t or hash_s[key] != hash_t[key]:
+            if hash_s[key] != hash_t.get(key, 0):
                 return False
         return True
