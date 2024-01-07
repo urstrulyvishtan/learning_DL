@@ -20,7 +20,7 @@ class Solution:
         hash_t = {}
         
         for i in range(len(s)):
-            hash_s[s[i]] = hash_s.get(s[i], 0) + 1
+            hash_s[s[i]] = hash_s.get(s[i], 0) + 1 # using get method to avoid KeyError
             hash_t[t[i]] = hash_t.get(t[i], 0) + 1
 
         for key in hash_s:
