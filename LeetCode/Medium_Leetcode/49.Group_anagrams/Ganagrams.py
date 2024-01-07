@@ -1,3 +1,4 @@
+from collections import defaultdict
 class Solution:
     def anagrams_group(self, strs: list[str]) -> list[list[str]]:
         values = defaultdict(list)
