@@ -12,7 +12,7 @@ class Solution:
         return True
     
 
-    def anagramHash(self, s: str, t: str) -> bool:
+    def AnagramHash( s: str, t: str) -> bool:
         if len(s) != len(t):
             return False
         
