@@ -11,15 +11,5 @@ class Solution:
             else:
                 right -= 1
         return max_area
-    
-    def maxArea2(self, height: list[int]) -> int:
-        left = 0
-        right =  len(height)-1
-        for i in range (len(height)):
-            if left<right:
-                max_left = max(height[left], height[left+i])
-                max_right = max(height[right], height[right-i])
-                
-        
-        return min(max_left, max_right) * ((right-i)-(left+i))
+
                 
