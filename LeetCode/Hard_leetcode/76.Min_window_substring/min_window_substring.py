@@ -1,49 +1,28 @@
 class Solution:
     def minWindow(self, s: str, t: str) -> str:
-        from collections import Counter
+        countT , window = {}, {}
 
-        if not t or not s:
-            return ""
+        for c in t:
+            countT[c] = countT.get(c, 0) + 1
 
-        dict_t = Counter(t)
+        have, need = 0, len(countT)
+        l=0
+        res, reslen = [-1, -1], float('inf')   
+        for r in range(len(s)):
+            c = s[r]
+            window[c] = window.get(c, 0) + 1
 
-        required = len(dict_t)
+            if c in countT and window[c] == countT[c]:
+                have += 1
+            while have == need:
+                if r - l + 1 < reslen:
+                    reslen = r - l + 1
+                    res = [l, r]
+                c = s[l]
+                window[c] -= 1
+                if c in countT and window[c] < countT[c]:
+                    have -= 1
+                l += 1
 
-        # Filter all the characters from s into a new list along with their index.
-        # The filtering criteria is that the character should be present in t.
-        filtered_s = []
-        for i, char in enumerate(s):
-            if char in dict_t:
-                filtered_s.append((i, char))
-
-        l, r = 0, 0
-        formed = 0
-        window_counts = {}
-
-        ans = float("inf"), None, None
-
-        # Look for the characters only in the filtered list instead of the entire s. 
-        # This helps to reduce our search.
-        # Hence, we follow the sliding window approach on as small list.
-        while r < len(filtered_s):
-            character = filtered_s[r][1]
-            window_counts[character] = window_counts.get(character, 0) + 1
-
-            if window_counts[character] == dict_t[character]:
-                formed += 1
-
-            # Try and contract the window till the point where it ceases to be 'desirable'.
-            while l <= r and formed == required:
-                character = filtered_s[l][1]
-
-                # Save the smallest window until now.
-                if r - l + 1 < ans[0]:
-                    ans = (r - l + 1, filtered_s[l][0], filtered_s[r][0])
-
-                window_counts[character] -= 1
-                if window_counts[character] < dict_t[character]:
-                    formed -= 1
-                l += 1    
-
-            r += 1    
-        return "" if ans[0] == float("inf") else s[ans[1] : ans[2] + 1]
+        l, r = res
+        return s[l:r+1] if reslen != float('inf') else ""
