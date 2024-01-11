@@ -26,3 +26,5 @@ class Solution:
 
         l, r = res
         return s[l:r+1] if reslen != float('inf') else ""
+    
+    
