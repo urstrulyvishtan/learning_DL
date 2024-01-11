@@ -1,18 +1,10 @@
 class Solution:
     def valid_paranthesis(self, s):
         stack = []
+        d = {'(':')', '{':'}','[':']'}
         for i in s:
-            if i == '(' or i == '{' or i == '[':
+            if i in d:  # 1
                 stack.append(i)
-            else:
-                if not stack:
-                    return False
-                if i == ')' and stack[-1] == '(':
-                    stack.pop()
-                elif i == '}' and stack[-1] == '{':
-                    stack.pop()
-                elif i == ']' and stack[-1] == '[':
-                    stack.pop()
-                else:
-                    return False
-        return len(stack) == 0
+            elif len(stack) == 0 or d[stack.pop()] != i:  # 2
+                return False
+        return len(stack) == 0 # 3
