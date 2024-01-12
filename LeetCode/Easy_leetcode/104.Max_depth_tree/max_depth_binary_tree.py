@@ -21,3 +21,5 @@ class Solution:
                 stack.append([node.right, depth + 1])
             
         return res
+    
+    
