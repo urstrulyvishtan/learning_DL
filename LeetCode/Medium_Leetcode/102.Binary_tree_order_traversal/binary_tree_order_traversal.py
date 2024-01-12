@@ -1,3 +1,4 @@
+from collections import deque
 class TreeNode:
     def __init__(self, val=0, left=None, right=None):
         self.val = val
@@ -8,7 +9,7 @@ class Solution: # 32ms, 14.5MB
     def levelOrder(self, root: TreeNode):
         res = []
 
-        q = collections.deque()
+        q = deque()
         q.append(root)
 
         while q:
