@@ -1,3 +1,4 @@
+from collections import deque
 class TreeNode:
     def __init__(self, x, left=None, right=None):
         self.val = x
@@ -8,7 +9,7 @@ class Solution:
     def buildTree(self, preorder, inorder):
         idx_map = {}
         for index in range(0, len(inorder)): idx_map[inorder[index]] = index
-        preorder = collections.deque(preorder)
+        preorder = deque(preorder)
         return self.helper(0, len(preorder) - 1, preorder, inorder, idx_map)
 
     def helper(self,left, right, preorder, inorder, idx_map):
@@ -19,3 +20,4 @@ class Solution:
         root.left = self.helper(left,idx_map[root_val]-1, preorder,inorder, idx_map)
         root.right = self.helper(idx_map[root_val]+1, right, preorder,inorder, idx_map)
         return root
+    
