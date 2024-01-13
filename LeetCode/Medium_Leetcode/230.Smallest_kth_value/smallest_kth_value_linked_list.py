@@ -1,10 +1,10 @@
 class ListNode:
-    def __init__(self, x):
+    def __init__(self, x,left, right):
         self.val = x
-        self.next = None
-        self.prev = None
+        self.left = left
+        self.right = right
 
-class solution:
+class Solution:
     def KthSmallest(self, root, k):
         if not root:
             return None
