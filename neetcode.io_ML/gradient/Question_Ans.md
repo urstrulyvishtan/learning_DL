@@ -1,3 +1,5 @@
+https://neetcode.io/problems/gradient-descent
+
 Your task is to minimize the function via Gradient Descent: 
 f(x) = x^2
 
