@@ -1,14 +1,22 @@
 class Solution:
-    def isAlienSorted(self, words: List[str], order: str) -> bool:
-        orderInd = {c:i for i, c in enumerate(order)}
+    def minRemoveToMakeValid(self, s: str) -> str:
+        res = []
+        cnt = 0
+        for c in s:
+            if c == "(":
+                cnt +=1
+                res.append(c)
+            elif c == ")" and cnt>0:
+                cnt-=1
+                res.append(c)
+            elif c != ")":
+                res.append(c)
 
-        for i in range(len(words)-1):
-            w1, w2 = words[i], words[i+1]
-            for j in range(len(w1)):
-                if j == len(w2):
-                    return False
-                if w1[j]!=w2[j]:
-                    if orderInd[w2[j]] < orderInd[w1[j]]:
-                        return False
-                    break
-        return True
+        filtered = []
+        for c in res[::-1]:
+            if c == "(" and cnt>0:
+                cnt-=1
+            else:
+                filtered.append(c)
+        
+        return "".join(filtered[::-1])
