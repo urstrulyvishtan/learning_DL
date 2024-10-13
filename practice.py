@@ -1,36 +1,19 @@
 class Solution:
-    def numberToWords(self, num: int) -> str:
-        if num == 0:
-            return "Zero"
-        
-        bigString = ["Thousand", "Million", "Billion"]
-        result = self.numberToWordsHelper(num % 1000)
-        num //= 1000
-        
-        for i in range(len(bigString)):
-            if num > 0 and num % 1000 > 0:
-                result = self.numberToWordsHelper(num % 1000) + bigString[i] + " " + result
-            num //= 1000
-        
-        return result.strip()
+    def addStrings(self, num1: str, num2: str) -> str:
+        i, j = len(num1) - 1, len(num2) - 1  # Pointers to the end of each string
+        carry = 0  # Initialize carry
+        result = []  # To store the final result in reverse order
 
-    def numberToWordsHelper(self, num: int) -> str:
-        digitString = ["Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"]
-        teenString = ["Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"]
-        tenString = ["", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"]
-        
-        result = ""
-        if num > 99:
-            result += digitString[num // 100] + " Hundred "
-        
-        num %= 100
-        if num < 20 and num > 9:
-            result += teenString[num - 10] + " "
-        else:
-            if num >= 20:
-                result += tenString[num // 10] + " "
-            num %= 10
-            if num > 0:
-                result += digitString[num] + " "
-        
-        return result
+        # Add digits from both strings starting from the end
+        while i >= 0 or j >= 0 or carry:
+            digit1 = ord(num1[i]) - ord('0') if i >= 0 else 0  # Get digit from num1 or use 0 if i is out of bounds
+            digit2 = ord(num2[j]) -ord('0') if j >= 0 else 0  # Get digit from num2 or use 0 if j is out of bounds
+            
+            total = digit1 + digit2 + carry  # Add digits and carry
+            carry = total // 10  # Update carry
+            result.append(chr(total%10+ord('0')))  # Append the digit to result
+            
+            i -= 1  # Move left in num1
+            j -= 1  # Move left in num2
+
+        return ''.join(result[::-1])  # Reverse the result list and join to form the final string
