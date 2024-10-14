@@ -1,20 +1,13 @@
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, val=0, left=None, right=None):
-#         self.val = val
-#         self.left = left
-#         self.right = right
 class Solution:
-    def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
+    def findAnagrams(self, s: str, p: str) -> List[int]:
+        if len(p)> len(s):
+            return[]
+        
         result = []
-        def dfs(node, depth):
-            if not node:
-                return
-            
-            if depth == len(result):
-                result.append(node.val)
-            
-            dfs(node.right, depth+1)
-            dfs(node.left, depth+1)
-        dfs(root, 0)
+        sorted_p = sorted(p)
+
+        for i in range(len(s) - len(p) + 1):
+            substring = s[i:i+len(p)]
+            if sorted(substring) == sorted_p:
+                result.append(i)
         return result
