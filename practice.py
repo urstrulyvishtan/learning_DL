@@ -1,26 +1,34 @@
 # Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, val=0, left=None, right=None):
-#         self.val = val
-#         self.left = left
-#         self.right = right
-class Solution:
-    def maxPathSum(self, root: Optional[TreeNode]) -> int:
-        global_max = float('-inf')
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
 
-        def dfs(node):
-            nonlocal global_max
+class Codec:
+
+    def serialize(self, root: TreeNode) -> str:
+        def serialize_helper(node):
             if not node:
-                return 0
-            
-            left_max = max(dfs(node.left), 0)
-            right_max = max(dfs(node.right), 0)
+                return "null,"  # Use 'null' to represent null nodes
+            return str(node.val) + "," + serialize_helper(node.left) + serialize_helper(node.right)
 
-            current_max = node.val+left_max+right_max
-            global_max = max(global_max, current_max)
-            return node.val + max(left_max, right_max)
+        return serialize_helper(root)
 
-        dfs(root)
-        return global_max
+    def deserialize(self, data: str) -> TreeNode:
+        def deserialize_helper(values):
+            value = next(values)  # Get the next value from the iterator
+            if value == "null":
+                return None  # If the value is 'null', return None
+            node = TreeNode(int(value))  # Create a new TreeNode
+            node.left = deserialize_helper(values)  # Recursively build the left subtree
+            node.right = deserialize_helper(values)  # Recursively build the right subtree
+            return node
 
+        values = iter(data.split(","))  # Split the string and create an iterator
+        return deserialize_helper(values)
 
+# Your Codec object will be instantiated and called as such:
+# ser = Codec()
+# deser = Codec()
+# ans = deser.deserialize(ser.serialize(root))
