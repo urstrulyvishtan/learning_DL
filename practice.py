@@ -1,34 +1,28 @@
 # Definition for a binary tree node.
-# class TreeNode(object):
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
+        if not root:
+            return []
+        
+        result = []
+        queue = deque([root])
 
-class Codec:
+        while queue:
+            level = len(queue)
+            right = None
 
-    def serialize(self, root: TreeNode) -> str:
-        def serialize_helper(node):
-            if not node:
-                return "null,"  # Use 'null' to represent null nodes
-            return str(node.val) + "," + serialize_helper(node.left) + serialize_helper(node.right)
+            for i in range(level):
+                node = queue.popleft()
+                right = node
 
-        return serialize_helper(root)
-
-    def deserialize(self, data: str) -> TreeNode:
-        def deserialize_helper(values):
-            value = next(values)  # Get the next value from the iterator
-            if value == "null":
-                return None  # If the value is 'null', return None
-            node = TreeNode(int(value))  # Create a new TreeNode
-            node.left = deserialize_helper(values)  # Recursively build the left subtree
-            node.right = deserialize_helper(values)  # Recursively build the right subtree
-            return node
-
-        values = iter(data.split(","))  # Split the string and create an iterator
-        return deserialize_helper(values)
-
-# Your Codec object will be instantiated and called as such:
-# ser = Codec()
-# deser = Codec()
-# ans = deser.deserialize(ser.serialize(root))
+                if node.left:
+                    queue.append(node.left)
+                if node.right:
+                    queue.append(node.right)
+            result.append(right.val)
+        return result
