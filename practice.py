@@ -1,24 +1,47 @@
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
 class Solution:
-    def checkSubarraySum(self, nums: List[int], k: int) -> bool: # 23, 2, 4, 6, 7 k = 6
-        remainder = {0:-1} 
-        cumulative_sum = 0
-        for i in range(len(nums)): #23. 2
-            cumulative_sum+=nums[i] #0+23 23+2
-            if k!=0:
-                cumulative_sum%=k #23%6 = 5 25%6 = 1
-            if cumulative_sum in remainder: # 
-                if i-remainder[cumulative_sum]>1: #
-                    return True #
-            else:
-                remainder[cumulative_sum] = i # 0:-1, 5:0, 1:1
-        return False  
+    def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]: # 1, 4, 5 , 1, 3, 4 , 2, 6 
+        # Min-heap to store (node_value, list_index, node) for each linked list
+        heap = []
         
-# init remainder to store the remainders of cumulative sum 
-# for each element compute sum/k
-# if the remainder has seen before map: check if the subarray formed between prev remainder and current index len atleast 2
-# if so return True
-# store the remainder with current index in the map
-# if no subarray is found return False
+        # Step 1: Push the head node of each linked list into the heap
+        for i in range(len(lists)):
+            if lists[i]:  # Check if the list is not None
+                heappush(heap, (lists[i].val, i, lists[i]))  # Push only non-None nodes
+        
+        # Dummy node to start building the merged list
+        dummy = ListNode(0)
+        current = dummy
+        
+        # Step 2: While the heap is not empty, process the smallest element
+        while heap:
+            val, i, node = heappop(heap)  # Get the smallest node
+            
+            # Append it to the result list
+            current.next = ListNode(val)
+            current = current.next
+            
+            # Move to the next node in the same list and push it into the heap if it's not None
+            if node.next:
+                heappush(heap, (node.next.val, i, node.next))
+        
+        return dummy.next  # Return the merged linked list
 
-# time complexity O(n)
-# space complexity O(min(n, k))
+# init an empty list
+# loop through each LL and extract all the values, append
+# sort
+# construct new LL from the sorted
+
+# time complexity : O(N Log N)
+# space complexity : O(N)
+
+# init pq
+# push the head of each LL to the heap
+# heap is not empty then pop smallest and append to result. push the next node from same list into heap
+
+# time complexity : O(N log K)
+# space complexity : O(K)
