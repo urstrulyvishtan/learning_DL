@@ -7,23 +7,24 @@
 class BSTIterator:
 
     def __init__(self, root: Optional[TreeNode]):
-        self.nodes = []
-        self.index = -1
-        self._inorder(root)
+        self.stack = [] # 7, 3
+        self._push_left(root)
 
-    def _inorder(self, node):
-        if not node:
-            return
-        self._inorder(node.left)
-        self.nodes.append(node.val)
-        self._inorder(node.right)
+    def _push_left(self, node):
+        while node:
+            self.stack.append(node)
+            node = node.left
 
     def next(self) -> int:
-        self.index += 1
-        return self.nodes[self.index]
+        node = self.stack.pop() 
+        result = node.val
+
+        if node.right:
+            self._push_left(node.right)
+        return result 
 
     def hasNext(self) -> bool:
-        return self.index + 1<len(self.nodes)
+        return len(self.stack)>0
         
 
 
@@ -36,3 +37,10 @@ class BSTIterator:
 # next() return the next element from the list
 # time complexity O(n)
 # space complexity O(n)
+
+# init the stack by pushing all from root to leftmost elements
+# for each call to next() pop top node
+# if pop has right child push all the leftmost node of right subtree into the stack
+
+# time complexity O(1)
+# space complexity O(h)
