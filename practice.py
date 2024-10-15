@@ -1,31 +1,38 @@
-class Solution:
-    def isPalindrome(self, s: str) -> bool: # race car
-        left, right = 0, len(s)-1 # 0 7
-        while left<right:
-            while left<right and not s[left].isalnum(): 
-                left+=1
-            while left<right and not s[right].isalnum():
-                right-=1
-            if s[left].lower() != s[right].lower():
-                return False
-            left += 1
-            right -= 1
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class BSTIterator:
 
-        return True
+    def __init__(self, root: Optional[TreeNode]):
+        self.nodes = []
+        self.index = -1
+        self._inorder(root)
 
-# convert string to lower case
-# remove all non alpha numeric chars
-# reverse the cleaned string
-# compare the cleaned string with its reverse
+    def _inorder(self, node):
+        if not node:
+            return
+        self._inorder(node.left)
+        self.nodes.append(node.val)
+        self._inorder(node.right)
 
-# time complexity : o(n)
-# space complexity : O(n)
+    def next(self) -> int:
+        self.index += 1
+        return self.nodes[self.index]
 
-# init left, right
-# while left<right skip any non alphanumeric char for both pointers
-# compare the char at left and right
-# if they match continue inward otherwise return False
-# if all valid char match return true
+    def hasNext(self) -> bool:
+        return self.index + 1<len(self.nodes)
+        
 
+
+# Your BSTIterator object will be instantiated and called as such:
+# obj = BSTIterator(root)
+# param_1 = obj.next()
+# param_2 = obj.hasNext()
+
+# hasNext() check if there are more elements in the list
+# next() return the next element from the list
 # time complexity O(n)
-# space complexity O(1)
+# space complexity O(n)
