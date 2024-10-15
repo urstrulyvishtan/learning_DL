@@ -1,17 +1,24 @@
-# The isBadVersion API is already defined for you.
-# def isBadVersion(version: int) -> bool:
-
 class Solution:
-    def firstBadVersion(self, n: int) -> int:
-        left, right =1, n
-        while left<right:
-            mid = left+(right-left)//2
-            if isBadVersion(mid):
-                right = mid
+    def checkSubarraySum(self, nums: List[int], k: int) -> bool: # 23, 2, 4, 6, 7 k = 6
+        remainder = {0:-1} 
+        cumulative_sum = 0
+        for i in range(len(nums)): #23. 2
+            cumulative_sum+=nums[i] #0+23 23+2
+            if k!=0:
+                cumulative_sum%=k #23%6 = 5 25%6 = 1
+            if cumulative_sum in remainder: # 
+                if i-remainder[cumulative_sum]>1: #
+                    return True #
             else:
-                left = mid+1
-        return left
+                remainder[cumulative_sum] = i # 0:-1, 5:0, 1:1
+        return False  
+        
+# init remainder to store the remainders of cumulative sum 
+# for each element compute sum/k
+# if the remainder has seen before map: check if the subarray formed between prev remainder and current index len atleast 2
+# if so return True
+# store the remainder with current index in the map
+# if no subarray is found return False
 
-# left = 1 and right = n
-# left<right: middle, if isbad(middle) returns true right = middle, if isbad(mid) returns false left= mid+1
-# return left 
+# time complexity O(n)
+# space complexity O(min(n, k))
