@@ -1,40 +1,45 @@
-"""
-# Definition for a Node.
-class Node:
-    def __init__(self, val = 0, neighbors = None):
-        self.val = val
-        self.neighbors = neighbors if neighbors is not None else []
-"""
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
 
-from typing import Optional
 class Solution:
-    def cloneGraph(self, node: Optional['Node']) -> Optional['Node']:
-        if not node:
-            return None
-        visited = {}
-        def dfs(curr_node: Node)->Node:
-            if curr_node in visited:
-                return visited[curr_node]
-            clone = Node(curr_node.val)
-            visited[curr_node] = clone
-            for neighbor in curr_node.neighbors:
-                clone.neighbors.append(dfs(neighbor))
-            return clone
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        if not root or root == p or root == q:
+            return root
+        left = self.lowestCommonAncestor(root.left, p, q)
+        right = self.lowestCommonAncestor(root.right, p, q)
 
-        return dfs(node)
+        if left and right:
+            return root
+        return left if left else right
 
-# init visited to store cloned nodes
-# dfs rec func
-#   if current node is already cloned exists in the visited map, return its clone
-#   otherwise create and add a new node to visited
-#   for neighbor in the current node, clone its neighbors and add them to the clone' n list
-# return the clone
-
-# [[2, 4], [1,3], [2, 4], [1, 3]]
-# node = 1, neighbors = 2, 4
-# node = 2, neighbors = 1, 3. reuse 1 clone
-# node = 3, neighbors = 2, 4 resue 2 clone
-# node = 4, neighbors = 1, 3 1 and 3 reuse clone
+# if current node is none return none end of branch
+# if current node matches p or q return that node potential LCA
+# traverse left subtree
+# traverse right subtree
+# if both right and left subtrees return Non none value the current node is LCA(both p and q are in diffreent branches)
+# if one of the subtree valid node and other returns none propagate valid node upwards
 
 # time complexity O(n)
-# space complexity O(n) 
+# space complexity O(h)
+
+# 3, 5, 1, 6, 2, 0, 8, none, none, 7, 4 p = 5 q = 1
+
+# root = 3, root = 5 = p returns root
+# root = 1, return root
+# LCA is 3
+
+# traverse tree once and store the parent of each node in the dict
+# starting from nodes p and q we'll trace thier paths to the root
+# store the nodes encountered
+# first common node in both the path is LCA
+
+# dict{3: None, 5:3, 1:3, 6:5, 2:5, 0:1, 8:1, 7:2, 4:2}
+# path p = 5 path = {5,3}
+# path q = 1 move the parent q = 3
+# q= 3 which is in the path LCA is 3
+
+# time complexity and space complexity O(n)
