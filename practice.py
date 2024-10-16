@@ -1,46 +1,30 @@
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, val=0, left=None, right=None):
-#         self.val = val
-#         self.left = left
-#         self.right = right
-class BSTIterator:
-
-    def __init__(self, root: Optional[TreeNode]):
-        self.stack = [] # 7, 3
-        self._push_left(root)
-
-    def _push_left(self, node):
-        while node:
-            self.stack.append(node)
-            node = node.left
-
-    def next(self) -> int:
-        node = self.stack.pop() 
-        result = node.val
-
-        if node.right:
-            self._push_left(node.right)
-        return result 
-
-    def hasNext(self) -> bool:
-        return len(self.stack)>0
+class Solution:
+    def isAlienSorted(self, words: List[str], order: str) -> bool: # hello, leetcode
+        alien_dict = {char: index for index, char in enumerate(order)}
+    
+        # Step 2: Compare each pair of adjacent words
+        for i in range(len(words) - 1):
+            word1 = words[i]
+            word2 = words[i + 1]
+            
+            # Step 3: Compare the words character by character
+            for j in range(min(len(word1), len(word2))):
+                if word1[j] != word2[j]:
+                    # If characters are different, check their order in alien_dict
+                    if alien_dict[word1[j]] > alien_dict[word2[j]]:
+                        return False  # If the first word comes after the second, not sorted
+                    # If we find the first different character and it's in the right order, move to the next pair of words
+                    break
+            else:
+                # If we finished the loop and all characters were the same, the shorter word should come first
+                if len(word1) > len(word2):
+                    return False
         
+        # If all word pairs are sorted according to alien_dict, return True
+        return True
 
-
-# Your BSTIterator object will be instantiated and called as such:
-# obj = BSTIterator(root)
-# param_1 = obj.next()
-# param_2 = obj.hasNext()
-
-# hasNext() check if there are more elements in the list
-# next() return the next element from the list
-# time complexity O(n)
-# space complexity O(n)
-
-# init the stack by pushing all from root to leftmost elements
-# for each call to next() pop top node
-# if pop has right child push all the leftmost node of right subtree into the stack
-
-# time complexity O(1)
-# space complexity O(h)
+# create dict map each char in order to its idx
+# loop adjacent pair each words:
+#   compare the words char by char using the dict
+#   if one word is a prefix of another, then shorter one must come first
+# if all comparisons are valid then return True, otherwise it will be False
