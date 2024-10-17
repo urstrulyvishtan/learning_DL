@@ -1,37 +1,26 @@
 class Solution:
+    def moveZeroes(self, nums: List[int]) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        i = 0
+        for j in range(len(nums)):
+            if nums[j]!=0:
+                nums[i], nums[j] = nums[j], nums[i]
+                i+=1
 
-    def __init__(self, nums: List[int]):
-        self.nums = nums
+# 1, 3, 12, 0, 0
+# j= 4
+# i = 2
 
-    def pick(self, target: int) -> int:
-        result = -1
-        count = 0
-        for i in range(len(self.nums)):
-            if self.nums[i]==target:
-                count+=1
-                if random.randint(1,count) == 1:
-                    result = i
-        return result
+# if no zeroes array remains unchanged
+# if all zeroes array remains as is
+# empty array remains unchanged
 
+# pointer i to 0, track position of next zero
+# iterate array with j
+# non zero j swap nums[i]nums[j] i++
+# non zero will be at start zeros will be at end
 
-# Your Solution object will be instantiated and called as such:
-# obj = Solution(nums)
-# param_1 = obj.pick(target)
-
-# array might have multiple occurence of same target
-# ensure that every valid index has a equal number of probablity of being selected
-
-# when solution object store the array nums
-# loop through the array to find all indices where the value equals the target
-# for every occurence will use a sampling method to randomly decide to pick the target
-# result is index of one of the occurence of the target selected randomly with equal probablity
-# 1/count
-
-# nums [1. 2. 3, 3, 3]
-# target = 3
-# nums = 3 at indices 2, 3, and 4
-# index = 2, count = 1
-# index = 3, count = 2
-# index = 4, count = 3
-# Time complexity O(n)
-# space complexity O(n)
+# time complexity O(n)
+# space complexity O(1)
