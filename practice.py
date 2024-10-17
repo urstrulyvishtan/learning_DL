@@ -1,26 +1,31 @@
 class Solution:
-    def moveZeroes(self, nums: List[int]) -> None:
-        """
-        Do not return anything, modify nums in-place instead.
-        """
-        i = 0
-        for j in range(len(nums)):
-            if nums[j]!=0:
-                nums[i], nums[j] = nums[j], nums[i]
-                i+=1
+    def findPeakElement(self, nums: List[int]) -> int:
+        low, high = 0, len(nums)-1
+        while low<high:
+            mid = (low+high)//2
+            if nums[mid]>nums[mid+1]:
+                high = mid
+            else:
+                low = mid+1
+        return low
 
-# 1, 3, 12, 0, 0
-# j= 4
-# i = 2
+# the array may contain one element, it is the peak
+# multiple peak elements, any one of the peak
+# peak might occur start or end of the array
 
-# if no zeroes array remains unchanged
-# if all zeroes array remains as is
-# empty array remains unchanged
+# low = 0 high = len(nums)-1
+# while low<high compute mid = (low+high)//2
+#  compare nums[mid] with mid+1
+#       if mid>mid+1 set high = mid
+#       low = mid+1
+# repeat this until low equals to high at which low will be peak
 
-# pointer i to 0, track position of next zero
-# iterate array with j
-# non zero j swap nums[i]nums[j] i++
-# non zero will be at start zeros will be at end
+# 1, 2, 3, 1
+# low = 0, high = 3
+# mid = 1 low = 2
+# high = 3
+# mid = 2
+# high = mid = 2
 
-# time complexity O(n)
+# time complexity O(log n)
 # space complexity O(1)
