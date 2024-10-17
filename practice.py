@@ -1,30 +1,39 @@
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
 class Solution:
-    def myPow(self, x: float, n: int) -> float: 
-        if n == 0: 
-            return 1
-        if n == 1:
-            return x
-        if n<0:
-            x = 1/x
-            n = -n
-        half = self.myPow(x, n//2)
+    def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]: # 1, 4, 5 , 1, 3, 4 , 2, 6 
+        heap = []
+        for i in range(len(lists)):
+            if list[i]:
+                heapq.heappush(heap, (lists[i].val, i, list[i])) # 1, 0, node(1), 1, 1, node(1), 2, 2, node(2)
+        dummy = ListNode(0)
+        current = dummy
 
-        if n%2 == 0:
-            return half*half
-        else:
-            return half*half*x
+        while heap:
+            val, i, node = heapq.heappop(heap) # 1, 0, node(1)
+            current.next = ListNode(val) # 1
+            currernt = current.next
+            if node.next:
+                heapq.heappush(heap, (node.next.val, i, node.next))
 
-# n = 0 return 1 
-# n = 1 return x 
-# n is negative 1/x^n
-# if n is even, we compute x^n  by squaring x^n/2
-# if n is odd we compute x^n as x times x^n-1 reduce the problem.
+        return dummy.next
+        
+# init min-heap and push the first node of LL into the heap
+# extract the smallest node from the heap and append it to the result
+# push the next node from the same list into the heap
+# continue this until the heap is empty
+# return the merged list
 
-# x = 2, n = 10
-# mypow(2, 5) -> myPow(2, 2) -> myPow(2,1)
-# myPow(2,2) -> 2*2 = 4
-# my(2, 5) -> 4*4*2=32
-# myPow(2, 10) -> 32*32 = 1024
+# time complexity O(N log K)
+# space complexity O(K)
 
-# time complexity O(log n)
-# space complexity O(long n)
+# merge the LL in pair
+# continue merging until only one list remains
+# recursively merge two list at a time 
+# after one round of merging halve the number of lists by merging two at a time
+# continue until there's only one list remaining
+# time complexity O(N log K)
+# space complexity O(log K)
