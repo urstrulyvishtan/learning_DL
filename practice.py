@@ -1,39 +1,46 @@
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, val=0, next=None):
-#         self.val = val
-#         self.next = next
 class Solution:
-    def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]: # 1, 4, 5 , 1, 3, 4 , 2, 6 
-        heap = []
-        for i in range(len(lists)):
-            if list[i]:
-                heapq.heappush(heap, (lists[i].val, i, list[i])) # 1, 0, node(1), 1, 1, node(1), 2, 2, node(2)
-        dummy = ListNode(0)
-        current = dummy
+    def trap(self, height: List[int]) -> int:
+        if len(height)<3:
+            return 0
+        left, right = 0, len(height)-1
+        left_max, right_max = height[left], height[right]
+        total_water = 0
+        while left<right:
+            if height[left]<height[right]:
+                if height[left]<left_max:
+                    total_water += left_max - height[left]
+                else:
+                    left_max = height[left]
+                left+=1
+            else:
+                if height[right]<right_max:
+                    total_water+=right_max-height[right]
+                else:
+                    right_max = height[right]
+                right-=1
+        return total_water       
 
-        while heap:
-            val, i, node = heapq.heappop(heap) # 1, 0, node(1)
-            current.next = ListNode(val) # 1
-            currernt = current.next
-            if node.next:
-                heapq.heappush(heap, (node.next.val, i, node.next))
+# if height is empty or has less than 3 elements
+# return 0
+# left_max max height from 0 to the length
+# right_max
+# trapped water min(right_max, left_max) - height
+# if trapped water >0
+# total_water+=watertrapped
+# return total _water
 
-        return dummy.next
-        
-# init min-heap and push the first node of LL into the heap
-# extract the smallest node from the heap and append it to the result
-# push the next node from the same list into the heap
-# continue this until the heap is empty
-# return the merged list
+# left, right 
+# left_max, right_max
+# move pointer with smallest heigh towards the other pointer
+# if heigh[left] is smaller than height[right]
+# move left pointer otherwise right pointer
+# calc water trapped at each step by difference between the current max ansd on taht side current heigh
 
-# time complexity O(N log K)
-# space complexity O(K)
+# 0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1
+# left = 2, right 10
+# total_water = 0
+# left_max = 1, right_max = 2
+# water_trapped = left_max-height[2] = 1
 
-# merge the LL in pair
-# continue merging until only one list remains
-# recursively merge two list at a time 
-# after one round of merging halve the number of lists by merging two at a time
-# continue until there's only one list remaining
-# time complexity O(N log K)
-# space complexity O(log K)
+# time complexity O(n)
+# space complexity O(1)
