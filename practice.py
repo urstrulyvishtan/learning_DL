@@ -1,46 +1,54 @@
 class Solution:
-    def trap(self, height: List[int]) -> int:
-        if len(height)<3:
-            return 0
-        left, right = 0, len(height)-1
-        left_max, right_max = height[left], height[right]
-        total_water = 0
-        while left<right:
-            if height[left]<height[right]:
-                if height[left]<left_max:
-                    total_water += left_max - height[left]
-                else:
-                    left_max = height[left]
-                left+=1
-            else:
-                if height[right]<right_max:
-                    total_water+=right_max-height[right]
-                else:
-                    right_max = height[right]
-                right-=1
-        return total_water       
+    def removeInvalidParentheses(self, s: str) -> List[str]:
+        def isValid(string):
+            balance = 0
+            for char in string:
+                if char=='(':
+                    balance+=1
+                elif char==')':
+                    balance-=1
+                if balance<0:
+                    return False
+            return balance == 0
+        result = []
+        visited = set()
+        queue = deque([s])
+        while queue:
+            curr = queue.popleft()
+            if isValid(curr):
+                result.append(curr)
+                found = True
+            if found:
+                continue
+            for i in range(len(curr)):
+                if curr[i] not in ('(', ')'):
+                    continue
+                next_state = curr[:i] + curr[i+1:]
+                if next_state not in visites:
+                    visited.add(next_state)
+                    queue.append(next_state)
 
-# if height is empty or has less than 3 elements
-# return 0
-# left_max max height from 0 to the length
-# right_max
-# trapped water min(right_max, left_max) - height
-# if trapped water >0
-# total_water+=watertrapped
-# return total _water
+        return result if result else [""]
+        
+        
+# s == "" return an empty string
+# all valid paranthesis is already valid return as it is
+# only letters return string
+# )(()
+# ((a)b)
+# BFS approach
+# start checking if the string is valid
+#   if valid then add to result and return
+#   if not valid, remove one paranthesis and continue checking all possinle results
+#   use BFS to ensure to remove no. of paranthesis
+# isVaild()
+# use set to avoid duplicates 
+# use a queue to handle BFS
+# once found a level stop further removal
 
-# left, right 
-# left_max, right_max
-# move pointer with smallest heigh towards the other pointer
-# if heigh[left] is smaller than height[right]
-# move left pointer otherwise right pointer
-# calc water trapped at each step by difference between the current max ansd on taht side current heigh
+# s = ()())()
+# ()()()
+# (())()
 
-# 0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1
-# left = 2, right 10
-# total_water = 0
-# left_max = 1, right_max = 2
-# water_trapped = left_max-height[2] = 1
-
-# time complexity O(n)
-# space complexity O(1)
+# time complexity O(n*2^n) O(n)
+# space complexity O(n*2^n)
