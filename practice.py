@@ -1,31 +1,58 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
 class Solution:
-    def findPeakElement(self, nums: List[int]) -> int:
-        low, high = 0, len(nums)-1
-        while low<high:
-            mid = (low+high)//2
-            if nums[mid]>nums[mid+1]:
-                high = mid
-            else:
-                low = mid+1
-        return low
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        if not root:
+            return root
 
-# the array may contain one element, it is the peak
-# multiple peak elements, any one of the peak
-# peak might occur start or end of the array
+        lca = None
 
-# low = 0 high = len(nums)-1
-# while low<high compute mid = (low+high)//2
-#  compare nums[mid] with mid+1
-#       if mid>mid+1 set high = mid
-#       low = mid+1
-# repeat this until low equals to high at which low will be peak
+        def dfs(node):
+            nonlocal lca
 
-# 1, 2, 3, 1
-# low = 0, high = 3
-# mid = 1 low = 2
-# high = 3
-# mid = 2
-# high = mid = 2
+            if not node:
+                return False
 
-# time complexity O(log n)
-# space complexity O(1)
+            is_left = dfs(node.left)
+            is_right = dfs(node.right)
+            is_current = node in (p, q)
+
+            if is_left + is_right + is_current >= 2:
+                lca = node
+
+            return is_left or is_right or is_current
+
+        dfs(root)
+        return lca
+# if current node is none return none end of branch
+# if current node matches p or q return that node potential LCA
+# traverse left subtree
+# traverse right subtree
+# if both right and left subtrees return Non none value the current node is LCA(both p and q are in diffreent branches)
+# if one of the subtree valid node and other returns none propagate valid node upwards
+
+# time complexity O(n)
+# space complexity O(h)
+
+# 3, 5, 1, 6, 2, 0, 8, none, none, 7, 4 p = 5 q = 1
+
+# root = 3, root = 5 = p returns root
+# root = 1, return root
+# LCA is 3
+
+# traverse tree once and store the parent of each node in the dict
+# starting from nodes p and q we'll trace thier paths to the root
+# store the nodes encountered
+# first common node in both the path is LCA
+
+# dict{3: None, 5:3, 1:3, 6:5, 2:5, 0:1, 8:1, 7:2, 4:2}
+# path p = 5 path = {5,3}
+# path q = 1 move the parent q = 3
+# q= 3 which is in the path LCA is 3
+
+# time complexity and space complexity O(n)
