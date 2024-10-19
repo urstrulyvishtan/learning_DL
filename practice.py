@@ -1,58 +1,28 @@
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
 class Solution:
-    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
-        if not root:
-            return root
+    def multiply(self, num1: str, num2: str) -> str:
+        #return str(int(num1)* int(num2))
 
-        lca = None
-
-        def dfs(node):
-            nonlocal lca
-
-            if not node:
-                return False
-
-            is_left = dfs(node.left)
-            is_right = dfs(node.right)
-            is_current = node in (p, q)
-
-            if is_left + is_right + is_current >= 2:
-                lca = node
-
-            return is_left or is_right or is_current
-
-        dfs(root)
-        return lca
-# if current node is none return none end of branch
-# if current node matches p or q return that node potential LCA
-# traverse left subtree
-# traverse right subtree
-# if both right and left subtrees return Non none value the current node is LCA(both p and q are in diffreent branches)
-# if one of the subtree valid node and other returns none propagate valid node upwards
-
-# time complexity O(n)
-# space complexity O(h)
-
-# 3, 5, 1, 6, 2, 0, 8, none, none, 7, 4 p = 5 q = 1
-
-# root = 3, root = 5 = p returns root
-# root = 1, return root
-# LCA is 3
-
-# traverse tree once and store the parent of each node in the dict
-# starting from nodes p and q we'll trace thier paths to the root
-# store the nodes encountered
-# first common node in both the path is LCA
-
-# dict{3: None, 5:3, 1:3, 6:5, 2:5, 0:1, 8:1, 7:2, 4:2}
-# path p = 5 path = {5,3}
-# path q = 1 move the parent q = 3
-# q= 3 which is in the path LCA is 3
-
-# time complexity and space complexity O(n)
+        if num1 == '0' or num2 == '0':
+            return '0'
+        
+        len1, len2 = len(num1), len(num2)
+        result = [0] * (len1 + len2)
+    
+        # Multiply each digit and store the result in the correct position
+        for i in range(len1 - 1, -1, -1):
+            for j in range(len2 - 1, -1, -1):
+                # Calculate product of current digits
+                mul = (ord(num1[i]) - ord('0')) * (ord(num2[j]) - ord('0'))
+                # Position in the result array
+                p1 = i + j
+                p2 = i + j + 1
+                # Add multiplication result to the position
+                sum_carry = mul + result[p2]
+            
+                # Update result array with carry and remainder
+                result[p2] = sum_carry % 10
+                result[p1] += sum_carry // 10
+    
+        # Convert result array to string and remove leading zeros
+        result_str = ''.join(map(str, result))
+        return result_str.lstrip('0')
