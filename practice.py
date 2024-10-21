@@ -1,13 +1,14 @@
-class KthLargest:
-    def __init__(self, k: int, nums: List[int]):
-        self.k = k
-        self.arr = sorted(nums, reverse = True)
-
-    def add(self, val: int) -> int:
-        self.arr.append(val)
-        self.arr.sort(reverse = True)
-        return self.arr[self.k - 1]
-
-# Your KthLargest object will be instantiated and called as such:
-# obj = KthLargest(k, nums)
-# param_1 = obj.add(val)
+class Solution:
+    def kClosest(self, points: List[List[int]], k: int) -> List[List[int]]:
+        minHeap = []
+        for x, y in points:
+            dist = (x**2 + y**2)
+            minHeap.append([dist, x, y])
+        heapq.heapify(minHeap)
+        res = []
+        while k>0:
+            dist, x, y = heapq.heappop(minHeap)
+            res.append([x,y])
+            k-=1
+        
+        return res
